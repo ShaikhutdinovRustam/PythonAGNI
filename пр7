@@ -1,0 +1,64 @@
+from abc import ABC, abstractmethod
+import math
+
+
+class Shape(ABC):
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def params(self):
+        pass
+
+    def __str__(self):
+        return self.name
+
+    def __eq__(self, other):
+        return math.isclose(self.area(), other.area())
+
+    def compare(self, other):
+        if self == other:
+            return "Равно"
+        elif self.area() > other.area():
+            return "Больше"
+        else:
+            return "Меньше"
+
+
+class Circle(Shape):
+    def __init__(self, r):
+        super().__init__("Круг")
+        self.r = r
+
+    def area(self):
+        return math.pi * self.r ** 2
+
+    def params(self):
+        return f"r = {self.r}"
+
+
+class Rectangle(Shape):
+    def __init__(self, a, b):
+        super().__init__("Прямоугольник")
+        self.a = a
+        self.b = b
+
+    def area(self):
+        return self.a * self.b
+
+    def params(self):
+        return f"a = {self.a}, b = {self.b}"
+
+
+c = Circle(5)
+r1 = Rectangle(4, 5)
+r2 = Rectangle(2, 10)
+
+print(c, c.params(), c.area())
+print(r1, r1.params(), r1.area())
+print(r1 == r2)
+print(c.compare(r1))
